@@ -8,7 +8,6 @@ const patientSchema = mongoose.Schema({
     email: String,
     phoneNumber: String,
     address: String,
-    prescriptions: [{type:mongoose.Schema.Types.ObjectId, ref:"Prescription"}]
 });
 const patient = mongoose.model('patient', patientSchema);
 
