@@ -1,4 +1,5 @@
 const patientData = require("../models/patient")
+const prescriptionData = require("../models/prescriptions")
 
 const fetchPatients = async(req,res) => {
     const patients = await patientData.find();
@@ -43,6 +44,29 @@ const updatePatient =async(req,res) => {
     res.json({patient});
 }
 
+const addPrescription = async(req,res) => {
+    const patientId = req.params.id;
+    const prescription = req.body;
+    const newPrescription = new prescriptionData({
+            medicineName: prescription.medicineName,
+            prescriptionLength: prescription.prescriptionLength,
+            date: prescription.date,
+        })
+    await newPrescription.save();
+    const addedPrescription = await patientData.findByIdAndUpdate(patientId, {
+        $push: {prescriptions: newPrescription}
+    }).populate("prescriptions")
+    res.json({addedPrescription});
+}
+
+const getPrescriptions = async(req, res) => {
+    const patientId = req.params.id;
+    const patient = await patientData.findById(patientId).populate("prescriptions");
+    // const prescription = patient.prescriptions;
+    // const prescriptionInfo = await prescriptionData.findById(prescription);
+    res.json({patient})
+}
+
 const deletePatient = async(req,res) => {
     patientId = req.params.id;
     await patientData.findByIdAndDelete(patientId);
@@ -56,4 +80,6 @@ module.exports = {
     updatePatient,
     deletePatient,
     applySearch,
+    addPrescription,
+    getPrescriptions,
 }

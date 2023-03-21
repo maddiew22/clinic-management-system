@@ -10,26 +10,37 @@ export default function Prescription(props) {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
+        width: '60%',
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
     };
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
+    const handleOpen = () => {
+      setOpen(true);
+      fetchPrescriptions();
+    }
     const handleClose = () => setOpen(false);
+
+     const [listOfPrescriptions, setListOfPrescriptions] = useState([])
+      const fetchPrescriptions = async() => {
+        const res = await axios.get(`/patients/prescriptions/${props.id}`);
+        setListOfPrescriptions(res.data.patient.prescriptions);
+        console.log(listOfPrescriptions)
+    };
+
 
     const [prescriptions, setPrescription] = useState({
         prescriptions: {
-            medecineName: "",
+            medicineName: "",
             prescriptionLength: "",
             date: "",
         }
       });
-      
+
       const createPrescription = async() => {
-        await axios.post(`http://localhost:3000/patients/${props._id}/prescription`, prescriptions).then( () => {
+        await axios.put(`http://localhost:3000/patients/prescriptions/${props.id}`, prescriptions).then( () => {
             window.location.reload(false);
         })
       }
@@ -43,16 +54,39 @@ export default function Prescription(props) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
         <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-            Prescriptions
-            </Typography>
             <Box
             component="form"
             minHeight="20vh"
             width="100%"
             noValidate
             autoComplete="off">
-    <h2> New Prescription </h2>
+        <h2> Prescriptions </h2>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+            <TableRow>
+                <TableCell>Medicine Name</TableCell>
+                <TableCell align="right">Prescription Length</TableCell>
+                <TableCell align="right">Start Date</TableCell>
+                <TableCell align="right">Action</TableCell>
+            </TableRow>
+            </TableHead>
+            <TableBody>
+            {listOfPrescriptions && listOfPrescriptions.map((prescription, key) => (
+                <TableRow key={key}>
+                <TableCell component="th" scope="row">
+                    {prescription.medicineName}
+                </TableCell>
+                <TableCell align="right">{prescription.prescriptionLength}</TableCell>
+                <TableCell align="right">{prescription.date}</TableCell>
+                <TableCell align="right">
+                </TableCell>
+                </TableRow>
+            ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+    <h2> Add New Prescription </h2>
     <Box
       component="form"
       sx={{
@@ -61,13 +95,13 @@ export default function Prescription(props) {
       noValidate
       autoComplete="off"
     >
-      <TextField id="outlined-basic" label="Medecine Name" variant="outlined" value={prescriptions.medecineName} onChange={(event => {
-        setPrescription({ ...prescriptions, medecineName: event.target.value})
+      <TextField id="outlined-basic" label="Medicine Name" variant="outlined" value={prescriptions.medicineName} onChange={(event => {
+        setPrescription({ ...prescriptions, medicineName: event.target.value})
       })}/>
-      <TextField id="outlined-basic" label="Prescription Length" variant="outlined" value={prescriptions.lastName} onChange={(event => {
+      <TextField id="outlined-basic" label="Prescription Length" variant="outlined" value={prescriptions.prescriptionLength} onChange={(event => {
         setPrescription({ ...prescriptions, prescriptionLength: event.target.value})
       })}/>
-      <TextField id="outlined-basic" label="Date" variant="outlined" value={prescriptions.age} onChange={(event => {
+      <TextField id="outlined-basic" label="Start Date" variant="outlined" value={prescriptions.date} onChange={(event => {
         setPrescription({ ...prescriptions, date: event.target.value})
       })}/>
       <Button variant="contained" onClick={createPrescription}>Add</Button>   
