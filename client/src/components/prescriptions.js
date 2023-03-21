@@ -27,7 +27,6 @@ export default function Prescription(props) {
       const fetchPrescriptions = async() => {
         const res = await axios.get(`/patients/prescriptions/${props.id}`);
         setListOfPrescriptions(res.data.patient.prescriptions);
-        console.log(listOfPrescriptions)
     };
 
 
@@ -68,7 +67,6 @@ export default function Prescription(props) {
                 <TableCell>Medicine Name</TableCell>
                 <TableCell align="right">Prescription Length</TableCell>
                 <TableCell align="right">Start Date</TableCell>
-                <TableCell align="right">Action</TableCell>
             </TableRow>
             </TableHead>
             <TableBody>
@@ -79,8 +77,6 @@ export default function Prescription(props) {
                 </TableCell>
                 <TableCell align="right">{prescription.prescriptionLength}</TableCell>
                 <TableCell align="right">{prescription.date}</TableCell>
-                <TableCell align="right">
-                </TableCell>
                 </TableRow>
             ))}
             </TableBody>

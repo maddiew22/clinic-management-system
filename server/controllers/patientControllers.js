@@ -59,6 +59,7 @@ const addPrescription = async(req,res) => {
     res.json({addedPrescription});
 }
 
+
 const getPrescriptions = async(req, res) => {
     const patientId = req.params.id;
     const patient = await patientData.findById(patientId).populate("prescriptions");
