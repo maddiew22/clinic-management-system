@@ -4,8 +4,8 @@ const cors = require("cors");
 const connectToDb = require("./config/connectToDb");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const { fetchPatients, fetchPatient, createPatient, updatePatient, deletePatient, applySearch, addPrescription, getPrescriptions } = require("./controllers/patientControllers");
-const { fetchDoctors, fetchDoctor, createDoctor, updateDoctor, deleteDoctor } = require("./controllers/doctorControllers");
+const { fetchPatients, fetchPatient, createPatient, updatePatient, deletePatient, applySearch, addPrescription, getPrescriptions, fetchPatientAppointments } = require("./controllers/patientControllers");
+const { fetchDoctors, fetchDoctor, createDoctor, updateDoctor, deleteDoctor, fetchDoctorAppointments, createDoctorAppointment } = require("./controllers/doctorControllers");
 const { signup, login, logout, checkAuth } = require ("./controllers/userControllers");
 const requireAuth = require("./middleware/requireAuth");
 
@@ -45,6 +45,10 @@ app.delete('/patients/:id', deletePatient);
 
 app.put('/patients/prescriptions/:id', addPrescription);
 app.get('/patients/prescriptions/:id', getPrescriptions);
+
+app.get('/patient/appointments/:id', fetchPatientAppointments);
+app.get('/doctor/appointments/:id', fetchDoctorAppointments);
+app.post('/doctor/appointments/:id', createDoctorAppointment);
 
 app.get('/doctors', fetchDoctors);
 app.get('/doctors/:id', fetchDoctor);

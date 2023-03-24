@@ -4,7 +4,7 @@ import axios from "axios";
 import { Table, TableBody, TableRow, TableHead, TableContainer, TableCell, Paper } from '@mui/material';
 import UpdateDoctor from './updateDoctor';
 import DeleteDoctor from './deleteDoctor';
-import Prescription from '../prescriptions';
+import Appointment from '../appointments';
 
 
 export default function ShowDoctors() {
@@ -30,6 +30,7 @@ export default function ShowDoctors() {
                 <TableCell>First Name</TableCell>
                 <TableCell align="right">Last Name</TableCell>
                 <TableCell align="right">Specialty</TableCell>
+                <TableCell align="right">Appointments</TableCell>
                 <TableCell align="right">Action</TableCell>
             </TableRow>
             </TableHead>
@@ -41,6 +42,9 @@ export default function ShowDoctors() {
                 </TableCell>
                 <TableCell align="right">{doctor.lastName}</TableCell>
                 <TableCell align="right">{doctor.specialty}</TableCell>
+                <TableCell align="right"> 
+                  <Appointment id={doctor._id}/>
+                </TableCell>
                 <TableCell align="right">
                   <DeleteDoctor id={doctor._id}/>
                   <UpdateDoctor doctor={doctor}/>
