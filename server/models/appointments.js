@@ -9,6 +9,10 @@ const appointmentSchema = mongoose.Schema({
         type: String,
         required: true,
       },
+      doctorName: {
+        type: String,
+        required: true,
+      },
       doctorId: {
         type: String,
         required: true,
@@ -27,11 +31,6 @@ const appointmentSchema = mongoose.Schema({
       },
       notes: {
         type: String,
-      },
-      status: {
-        type: String,
-        required: true,
-        default: "pending",
       },
     },
     {

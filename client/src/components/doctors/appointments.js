@@ -35,11 +35,11 @@ export default function Appointment(props) {
         appointments: {
             patientName: "",
             patientId: "",
+            doctorName: "",
             doctorId: "",
             reasonForAppointment: "",
             date: "",
             time: "",
-            status: "",
         }
       });
 
@@ -49,7 +49,7 @@ export default function Appointment(props) {
 
       const createAppointment = async() => {
         try {
-            await axios.post(`http://localhost:3000/doctor/appointments/${props.id}`, appointments);
+            await axios.post(`/doctor/appointments/${props.id}`, appointments);
             setAlertContent("Appointment Booked");
             setAlert(true);
             setAlertSeverity('success');
@@ -89,7 +89,6 @@ export default function Appointment(props) {
                 <TableCell align="right">Date</TableCell>
                 <TableCell align="right">Time</TableCell>
                 <TableCell align="right">Notes</TableCell>
-                <TableCell align="right">Status</TableCell>
             </TableRow>
             </TableHead>
             <TableBody>
@@ -102,7 +101,6 @@ export default function Appointment(props) {
                 <TableCell align="right">{appointments.date}</TableCell>
                 <TableCell align="right">{appointments.time}</TableCell>
                 <TableCell align="right">{appointments.notes}</TableCell>               
-                <TableCell align="right">{appointments.status}</TableCell>
                 </TableRow>
             ))}
             </TableBody>

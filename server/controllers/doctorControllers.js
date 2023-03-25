@@ -53,16 +53,17 @@ const fetchDoctorAppointments = async(req,res) => {
 
 const createDoctorAppointment = async(req,res) => {
     id = req.params.id;
+    const selectedDoctor = await doctorData.findById(id)
     const appointment = req.body;
     const newAppointment = new appointmentData({
         patientName: appointment.patientName,
         patientId: appointment.patientId,
+        doctorName: selectedDoctor.firstName + " " + selectedDoctor.lastName,
         doctorId: id,
         reasonForAppointment: appointment.reasonForAppointment,
         date: appointment.date,
         time: appointment.time,
         notes: appointment.notes,
-        status: appointment.status,
     });
     if (await appointmentData.findOne({
         doctorId: newAppointment.doctorId,

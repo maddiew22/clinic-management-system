@@ -6,6 +6,7 @@ import UpdatePatient from './updatePatient';
 import Prescription from '../prescriptions';
 import DeletePatient from './deletePatient';
 import ContactInfo from '../contactInfo';
+import PatientAppointment from './appointment';
 
 export default function ShowPatients() {
   
@@ -43,6 +44,7 @@ export default function ShowPatients() {
                 <TableCell align="right">Age</TableCell>
                 <TableCell align="right">Medical Conditions</TableCell>
                 <TableCell align="right">Contact Information</TableCell>
+                <TableCell align="right">Appointments</TableCell>
                 <TableCell align="right">Add Prescription</TableCell>
                 <TableCell align="right">Action</TableCell>
             </TableRow>
@@ -58,6 +60,9 @@ export default function ShowPatients() {
                 <TableCell align="right">{patient.conditions}</TableCell>
                 <TableCell align="right"> 
                   <ContactInfo id={patient._id}/>
+                </TableCell>
+                <TableCell align="right"> 
+                  <PatientAppointment id={patient._id}/>
                 </TableCell>
                 <TableCell align="right"> 
                   <Prescription id={patient._id}/>

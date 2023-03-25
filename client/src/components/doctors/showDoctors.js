@@ -4,7 +4,7 @@ import axios from "axios";
 import { Table, TableBody, TableRow, TableHead, TableContainer, TableCell, Paper } from '@mui/material';
 import UpdateDoctor from './updateDoctor';
 import DeleteDoctor from './deleteDoctor';
-import Appointment from '../appointments';
+import Appointment from './appointments';
 
 
 export default function ShowDoctors() {
