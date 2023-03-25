@@ -72,6 +72,12 @@ const createDoctorAppointment = async(req,res) => {
     })) {
         res.status(500).json({message: "Time slot is already booked"});
     }
+    else if (!await appointmentData.findOne({
+        patientId: newAppointment.patientId,
+    })
+    ) {
+        res.status(500).json({message: "Could not find patient with that ID"});
+    }
     else {
         try {
             await newAppointment.save();
