@@ -2,7 +2,7 @@ import { Alert, AlertTitle, Button, TextField, Modal, Box, Stack, Typography, Ta
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import * as moment from 'moment'
 
 export default function PatientAppointment(props) {
 
@@ -98,7 +98,7 @@ export default function PatientAppointment(props) {
                     {appointments.doctorName}
                 </TableCell>
                 <TableCell align="right">{appointments.reasonForAppointment}</TableCell>
-                <TableCell align="right">{appointments.date}</TableCell>
+                <TableCell align="right">{moment(appointments.date).format('DD/MM/YYYY')}</TableCell>
                 <TableCell align="right">{appointments.time}</TableCell>
                 <TableCell align="right">{appointments.notes}</TableCell>               
                 </TableRow>
