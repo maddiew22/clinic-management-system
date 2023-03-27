@@ -7,6 +7,13 @@ const fetchDoctors = async(req,res) => {
     res.json({doctors})
 }
 
+const applyDoctorSearch = async(req,res) => {
+    const filter = req.params.filter;
+    const doctors = await doctorData.find({
+        lastName: {$regex: filter}}) 
+    res.json({doctors})
+}
+
 const fetchDoctor = async(req,res) => {
     const doctorId = req.params.id
     const doctor = await doctorData.findById(doctorId);
@@ -78,8 +85,6 @@ const createDoctorAppointment = async(req,res) => {
         res.status(500).json({message: "Could not find patient with that ID"});
         return;
     }   
-
-
     const today = new Date();
     if(
         newAppointment.date < today
@@ -109,6 +114,7 @@ module.exports = {
     createDoctor,
     updateDoctor,
     deleteDoctor,
+    applyDoctorSearch,
     fetchDoctorAppointments,
     createDoctorAppointment
 }

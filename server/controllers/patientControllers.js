@@ -8,7 +8,7 @@ const fetchPatients = async(req,res) => {
     res.json({patients})
 }
 
-const applySearch = async(req,res) => {
+const applyPatientSearch = async(req,res) => {
     const filter = req.params.filter;
     const patients = await patientData.find({
         lastName: {$regex: filter}}) 
@@ -141,7 +141,7 @@ module.exports = {
     createPatient,
     updatePatient,
     deletePatient,
-    applySearch,
+    applyPatientSearch,
     addPrescription,
     getPrescriptions,
     fetchPatientAppointments,

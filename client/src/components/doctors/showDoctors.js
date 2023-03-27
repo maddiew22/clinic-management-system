@@ -20,8 +20,20 @@ export default function ShowDoctors() {
       setDoctors(res.data.doctors);
   };
 
+  const [query, setQuery] = useState([]);
+  const applySearch = async(query) => {
+    const res = await axios.get(`/doctors/${query}`);
+    setDoctors(res.data.doctors);
+    console.log(doctors)
+  };
+
   return (
     <>
+        <form onSubmit={applySearch(query)}>
+          <input type="text" placeholder="Search by last name..." className="search" onChange={event => setQuery(event.target.value)}/>
+          <button type="submit"> Search </button>
+        </form>
+        
         <h2> All Doctors </h2>
         <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
