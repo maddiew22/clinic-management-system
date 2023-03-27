@@ -1,14 +1,17 @@
 const patientData = require("../models/patient")
 const prescriptionData = require("../models/prescriptions")
+const appointmentData = require("../models/appointments")
+const doctorData = require("../models/doctor")
 
 const fetchPatients = async(req,res) => {
-    const patients = await patientData.find();
+    const patients = await patientData.find().sort({"lastName":1});
     res.json({patients})
 }
 
-const applySearch = async(req,res) => {
+const applyPatientSearch = async(req,res) => {
     const filter = req.params.filter;
-    const patients = await patientData.find({firstName:filter});
+    const patients = await patientData.find({
+        lastName: {$regex: filter}}) 
     res.json({patients})
 }
 
@@ -74,13 +77,90 @@ const deletePatient = async(req,res) => {
     res.json({success: "Patient deleted"});
 }
 
+const fetchPatientAppointments = async(req,res) => {
+    id = req.params.id;
+    try {
+        const doctor = await patientData.findById(id);
+        const appointments  = await appointmentData.find({
+            patientId: id,
+            date: {$gte: new Date()}
+        }).sort({"date":1, "time":1})
+        res.json({appointments})
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const showAllPatientAppointments = async(req,res) => {
+    const id = req.params.id;
+    const filter = req.params.filter;
+    if (filter === "all")
+    {
+        const appointments = await appointmentData.find({
+            patientId: id
+        }).sort({"date":1, "time":1})
+        res.json({appointments})
+    }
+
+}
+
+const createPatientAppointment = async(req,res) => {
+    id = req.params.id;
+    const selectedPatient = await patientData.findById(id)
+    const appointment = req.body;
+    const newAppointment = new appointmentData({
+        patientName: selectedPatient.firstName + " " + selectedPatient.lastName,
+        patientId: id,
+        doctorName: appointment.doctorName,
+        doctorId: appointment.doctorId,
+        reasonForAppointment: appointment.reasonForAppointment,
+        date: appointment.date,
+        time: appointment.time,
+        notes: appointment.notes,
+    });
+
+    try {
+        await doctorData.findOne({
+        _id:newAppointment.doctorId 
+    })
+    } catch (err) {
+        res.status(500).json({message: "Could not find doctor with that ID"});
+        return;
+    }   
+
+    const today = new Date();
+    if(
+        newAppointment.date < today
+    ) {
+        res.status(500).json({message: "Please choose a future date"})
+    }
+    else if (await appointmentData.findOne({
+        doctorId: newAppointment.doctorId,
+        date: newAppointment.date,
+        time: newAppointment.time,
+    })) {
+        res.status(500).json({message: "Time slot is already booked"});
+    }
+    else {
+        try {
+            await newAppointment.save();
+            res.json({newAppointment});
+        } catch (error) {
+            res.status(409).json({ message: error.message });
+        }
+    }   
+}
+
 module.exports = {
     fetchPatients,
     fetchPatient,
     createPatient,
     updatePatient,
     deletePatient,
-    applySearch,
+    applyPatientSearch,
     addPrescription,
     getPrescriptions,
+    fetchPatientAppointments,
+    createPatientAppointment,
+    showAllPatientAppointments,
 }

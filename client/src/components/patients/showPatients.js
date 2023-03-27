@@ -6,6 +6,7 @@ import UpdatePatient from './updatePatient';
 import Prescription from '../prescriptions';
 import DeletePatient from './deletePatient';
 import ContactInfo from '../contactInfo';
+import PatientAppointment from './appointment';
 
 export default function ShowPatients() {
   
@@ -19,19 +20,19 @@ export default function ShowPatients() {
       setPatients(res.data.patients);
   };
 
-  // const [query, setQuery] = useState([]);
-  // const applySearch = async() => {
-  //   const res = await axios.get(`/patients/${query}`);
-  //   setPatients(res.data.patients);
-  //   console.log(patients)
-  // };
+  const [query, setQuery] = useState([]);
+  const applySearch = async(query) => {
+    const res = await axios.get(`/patients/${query}`);
+    setPatients(res.data.patients);
+    console.log(patients)
+  };
 
   return (
     <>
-    {/* <form onSubmit={applySearch}>
-      <input type="text" placeholder="Search patients last name..." className="search" onChange={event => setQuery(event.target.value)}/>
+    <form onSubmit={applySearch(query)}>
+      <input type="text" placeholder="Search by last name..." className="search" onChange={event => setQuery(event.target.value)}/>
       <button type="submit"> Search </button>
-    </form> */}
+    </form>
       
         <h2> All Patients </h2>
         <TableContainer component={Paper}>
@@ -43,6 +44,7 @@ export default function ShowPatients() {
                 <TableCell align="right">Age</TableCell>
                 <TableCell align="right">Medical Conditions</TableCell>
                 <TableCell align="right">Contact Information</TableCell>
+                <TableCell align="right">Appointments</TableCell>
                 <TableCell align="right">Add Prescription</TableCell>
                 <TableCell align="right">Action</TableCell>
             </TableRow>
@@ -58,6 +60,9 @@ export default function ShowPatients() {
                 <TableCell align="right">{patient.conditions}</TableCell>
                 <TableCell align="right"> 
                   <ContactInfo id={patient._id}/>
+                </TableCell>
+                <TableCell align="right"> 
+                  <PatientAppointment id={patient._id}/>
                 </TableCell>
                 <TableCell align="right"> 
                   <Prescription id={patient._id}/>

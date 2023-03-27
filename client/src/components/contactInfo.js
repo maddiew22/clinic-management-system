@@ -20,9 +20,10 @@ export default function ContactInfo(props) {
     const [open, setOpen] = useState(false);    
     const[patient, setPatient] = useState([])
     const handleOpen = async() => {
-        setOpen(true); 
-        const res = await axios.get(`/patients/${props.id}`);
-        setPatient(res.data.patient);  
+        setOpen(true);
+        const res = await axios.get(`/patient/${props.id}`);
+        setPatient(res.data.patient);
+        console.log(patient)
     }
     const handleClose = () => setOpen(false);
 
