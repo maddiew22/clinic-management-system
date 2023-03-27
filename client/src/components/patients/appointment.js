@@ -127,7 +127,7 @@ export default function PatientAppointment(props) {
       <TextField id="outlined-basic" variant="outlined" type="date" value={appointments.date} onChange={(event => {
         setAppointments({ ...appointments, date: event.target.value})
       })}/>
-      <TextField id="outlined-basic" label="Time" variant="outlined" value={appointments.time} onChange={(event => {
+      <TextField id="outlined-basic" variant="outlined" type="time" min="09:00" max="17:00" value={appointments.time} onChange={(event => {
         setAppointments({ ...appointments, time: event.target.value})
       })}/>
       <TextField id="outlined-basic" label="Notes" variant="outlined" value={appointments.note} onChange={(event => {

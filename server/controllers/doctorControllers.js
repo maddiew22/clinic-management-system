@@ -42,9 +42,13 @@ const deleteDoctor = async(req,res) => {
 
 const fetchDoctorAppointments = async(req,res) => {
     id = req.params.id;
+
     try {
         const doctor = await doctorData.findById(id);
-        const appointments  = await appointmentData.find({doctorId: id})
+        const appointments  = await appointmentData.find({
+            doctorId: id,
+            // date: {$gte: new Date()}
+        })
         res.json({appointments})
     } catch (err) {
         console.log(err)
@@ -65,6 +69,13 @@ const createDoctorAppointment = async(req,res) => {
         time: appointment.time,
         notes: appointment.notes,
     });
+
+    const today = new Date();
+    if(
+        newAppointment.date < today
+    ) {
+        res.status(500).json({message: "Please choose a future date"})
+    }
     if (await appointmentData.findOne({
         doctorId: newAppointment.doctorId,
         date: newAppointment.date,
