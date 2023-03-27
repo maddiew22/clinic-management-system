@@ -48,7 +48,7 @@ const fetchDoctorAppointments = async(req,res) => {
         const appointments  = await appointmentData.find({
             doctorId: id,
             // date: {$gte: new Date()}
-        })
+        }).sort({"date":1})
         res.json({appointments})
     } catch (err) {
         console.log(err)

@@ -79,7 +79,7 @@ const fetchPatientAppointments = async(req,res) => {
     id = req.params.id;
     try {
         const doctor = await patientData.findById(id);
-        const appointments  = await appointmentData.find({patientId: id})
+        const appointments  = await appointmentData.find({patientId: id}).sort({"date":1})
         res.json({appointments})
     } catch (err) {
         console.log(err)
