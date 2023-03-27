@@ -3,7 +3,7 @@ const prescriptionData = require("../models/prescriptions")
 const appointmentData = require("../models/appointments")
 
 const fetchPatients = async(req,res) => {
-    const patients = await patientData.find();
+    const patients = await patientData.find().sort({"lastName":1});
     res.json({patients})
 }
 
@@ -79,7 +79,7 @@ const fetchPatientAppointments = async(req,res) => {
     id = req.params.id;
     try {
         const doctor = await patientData.findById(id);
-        const appointments  = await appointmentData.find({patientId: id}).sort({"date":1})
+        const appointments  = await appointmentData.find({patientId: id}).sort({"date":1, "time":1})
         res.json({appointments})
     } catch (err) {
         console.log(err)

@@ -2,7 +2,7 @@ const doctorData = require("../models/doctor")
 const appointmentData = require("../models/appointments")
 
 const fetchDoctors = async(req,res) => {
-    const doctors = await doctorData.find();
+    const doctors = await doctorData.find().sort({"lastName":1});
     res.json({doctors})
 }
 
@@ -37,7 +37,7 @@ const updateDoctor =async(req,res) => {
 const deleteDoctor = async(req,res) => {
     doctorId = req.params.id;
     await doctorData.findByIdAndDelete(doctorId);
-    res.json({success: "Patient deleted"});
+    res.json({success: "Doctor deleted"});
 }
 
 const fetchDoctorAppointments = async(req,res) => {
@@ -48,7 +48,7 @@ const fetchDoctorAppointments = async(req,res) => {
         const appointments  = await appointmentData.find({
             doctorId: id,
             // date: {$gte: new Date()}
-        }).sort({"date":1})
+        }).sort({"date":1, "time":1})
         res.json({appointments})
     } catch (err) {
         console.log(err)
