@@ -10,7 +10,8 @@ const fetchPatients = async(req,res) => {
 
 const applySearch = async(req,res) => {
     const filter = req.params.filter;
-    const patients = await patientData.find({firstName:filter});
+    const patients = await patientData.find({
+        lastName: {$regex: filter}}) 
     res.json({patients})
 }
 

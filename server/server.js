@@ -37,7 +37,7 @@ app.get('/logout', logout);
 app.get('/check-auth', requireAuth, checkAuth);
 
 app.get('/patients', fetchPatients);
-// app.get('/patients/:filter', applySearch)
+app.get('/patients/:filter', applySearch)
 app.get('/patients/:id', fetchPatient);
 app.post('/patients', createPatient);
 app.put('/patients/:id', updatePatient);

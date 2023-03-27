@@ -20,19 +20,19 @@ export default function ShowPatients() {
       setPatients(res.data.patients);
   };
 
-  // const [query, setQuery] = useState([]);
-  // const applySearch = async() => {
-  //   const res = await axios.get(`/patients/${query}`);
-  //   setPatients(res.data.patients);
-  //   console.log(patients)
-  // };
+  const [query, setQuery] = useState([]);
+  const applySearch = async(query) => {
+    const res = await axios.get(`/patients/${query}`);
+    setPatients(res.data.patients);
+    console.log(patients)
+  };
 
   return (
     <>
-    {/* <form onSubmit={applySearch}>
-      <input type="text" placeholder="Search patients last name..." className="search" onChange={event => setQuery(event.target.value)}/>
+    <form onSubmit={applySearch(query)}>
+      <input type="text" placeholder="Search by last name..." className="search" onChange={event => setQuery(event.target.value)}/>
       <button type="submit"> Search </button>
-    </form> */}
+    </form>
       
         <h2> All Patients </h2>
         <TableContainer component={Paper}>
