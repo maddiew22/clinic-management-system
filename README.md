@@ -1,8 +1,6 @@
 # clinic-management-system
 
-Start the backend with npm run dev.
-
-Start the frontend with npm start.
+Start the site with npm start.
 
 Login with email: admin@email.com and password: password
 
