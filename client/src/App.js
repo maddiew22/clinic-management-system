@@ -12,7 +12,7 @@ function App() {
       <BrowserRouter>
     
         <Routes>
-          <Route path='/' index element={
+          <Route path='/*' index element={
             <RequireAuth>
               <PatientsPage/>
             </RequireAuth>
