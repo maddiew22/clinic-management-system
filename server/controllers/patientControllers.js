@@ -100,7 +100,13 @@ const createPatientAppointment = async(req,res) => {
         time: appointment.time,
         notes: appointment.notes,
     });
-    if (await appointmentData.findOne({
+    const today = new Date();
+    if(
+        newAppointment.date < today
+    ) {
+        res.status(500).json({message: "Please choose a future date"})
+    }
+    else if (await appointmentData.findOne({
         doctorId: newAppointment.doctorId,
         date: newAppointment.date,
         time: newAppointment.time,
