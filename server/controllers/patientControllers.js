@@ -1,6 +1,7 @@
 const patientData = require("../models/patient")
 const prescriptionData = require("../models/prescriptions")
 const appointmentData = require("../models/appointments")
+const doctorData = require("../models/doctor")
 
 const fetchPatients = async(req,res) => {
     const patients = await patientData.find().sort({"lastName":1});
@@ -100,6 +101,16 @@ const createPatientAppointment = async(req,res) => {
         time: appointment.time,
         notes: appointment.notes,
     });
+
+    try {
+        await doctorData.findOne({
+        _id:newAppointment.doctorId 
+    })
+    } catch (err) {
+        res.status(500).json({message: "Could not find doctor with that ID"});
+        return;
+    }   
+
     const today = new Date();
     if(
         newAppointment.date < today
@@ -112,12 +123,6 @@ const createPatientAppointment = async(req,res) => {
         time: newAppointment.time,
     })) {
         res.status(500).json({message: "Time slot is already booked"});
-    }
-    else if (!await appointmentData.findOne({
-            doctorId: newAppointment.doctorId,
-        })
-    ) {
-        res.status(500).json({message: "Could not find doctor with that ID"});
     }
     else {
         try {
