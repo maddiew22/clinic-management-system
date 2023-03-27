@@ -54,12 +54,25 @@ const fetchDoctorAppointments = async(req,res) => {
         const doctor = await doctorData.findById(id);
         const appointments  = await appointmentData.find({
             doctorId: id,
-            // date: {$gte: new Date()}
+            date: {$gte: new Date()}
         }).sort({"date":1, "time":1})
         res.json({appointments})
     } catch (err) {
         console.log(err)
     }
+}
+
+const showAllDoctorAppointments = async(req,res) => {
+    const id = req.params.id;
+    const filter = req.params.filter;
+    if (filter === "all")
+    {
+        const appointments = await appointmentData.find({
+            doctorId: id
+        }).sort({"date":1, "time":1})
+        res.json({appointments})
+    }
+
 }
 
 const createDoctorAppointment = async(req,res) => {
@@ -116,5 +129,6 @@ module.exports = {
     deleteDoctor,
     applyDoctorSearch,
     fetchDoctorAppointments,
-    createDoctorAppointment
+    createDoctorAppointment,
+    showAllDoctorAppointments,
 }

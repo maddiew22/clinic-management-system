@@ -81,11 +81,27 @@ const fetchPatientAppointments = async(req,res) => {
     id = req.params.id;
     try {
         const doctor = await patientData.findById(id);
-        const appointments  = await appointmentData.find({patientId: id}).sort({"date":1, "time":1})
+        const appointments  = await appointmentData.find({
+            patientId: id,
+            date: {$gte: new Date()}
+        }).sort({"date":1, "time":1})
         res.json({appointments})
     } catch (err) {
         console.log(err)
     }
+}
+
+const showAllPatientAppointments = async(req,res) => {
+    const id = req.params.id;
+    const filter = req.params.filter;
+    if (filter === "all")
+    {
+        const appointments = await appointmentData.find({
+            patientId: id
+        }).sort({"date":1, "time":1})
+        res.json({appointments})
+    }
+
 }
 
 const createPatientAppointment = async(req,res) => {
@@ -146,4 +162,5 @@ module.exports = {
     getPrescriptions,
     fetchPatientAppointments,
     createPatientAppointment,
+    showAllPatientAppointments,
 }

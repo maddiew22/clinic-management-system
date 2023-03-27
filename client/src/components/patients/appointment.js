@@ -30,6 +30,23 @@ export default function PatientAppointment(props) {
         setListOfAppointments(res.data.appointments);
     };
 
+    const fetchAll = async() => {
+      const button = document.getElementById("showHidePatientAppointments")
+      if (button.textContent === "Show all appointments")
+      {
+        const res = await axios.get(`/patient/appointments/${props.id}/all`);
+        button.textContent = "Hide past appointments";
+        setListOfAppointments(res.data.appointments).then(() => {
+        window.location.reload(false);
+        });
+        
+      }
+      else {
+        button.textContent = "Show all appointments";
+        fetchAppointments();
+      }
+  
+    };
 
     const [appointments, setAppointments] = useState({
         appointments: {
@@ -106,6 +123,7 @@ export default function PatientAppointment(props) {
             </TableBody>
           </Table>
         </TableContainer>
+        <Button id="showHidePatientAppointments" onClick={fetchAll}>Show all appointments</Button>
     <h2> Add New Appointment </h2>
     <Box
       component="form"
