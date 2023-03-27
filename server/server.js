@@ -38,7 +38,7 @@ app.get('/check-auth', requireAuth, checkAuth);
 
 app.get('/patients', fetchPatients);
 app.get('/patients/:filter', applyPatientSearch)
-app.get('/patients/:id', fetchPatient);
+app.get('/patient/:id', fetchPatient);
 app.post('/patients', createPatient);
 app.put('/patients/:id', updatePatient);
 app.delete('/patients/:id', deletePatient);
