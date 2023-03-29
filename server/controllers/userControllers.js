@@ -2,18 +2,6 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// async function signup(req, res) {
-//     try {
-//         const { email, password } = req.body;
-//         const hashPassword = bcrypt.hashSync(password, 8)
-//         await User.create({email, password:hashPassword});
-//         res.sendStatus(200);
-//     } catch(err) {
-//         console.log(err);
-//         res.sendStatus(400);
-//     };
-// }
-
 async function login(req, res) {
     try {
         const { email, password } = req.body;
@@ -65,7 +53,6 @@ function checkAuth(req,res) {
 }
 
 module.exports = {
-    // signup,
     login,
     logout,
     checkAuth,

@@ -1,3 +1,5 @@
+// Used to control which pages are only accesible when logged in
+
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 

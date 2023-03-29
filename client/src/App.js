@@ -24,7 +24,13 @@ function App() {
           }/>
           <Route path='/login' element = {<LoginPage/>}/>
           <Route path='/logout' element = {<LogoutPage/>}/>
-          <Route path="*" element={<PatientsPage/>} />
+          
+            <Route path="*" element={
+            <RequireAuth>
+              <PatientsPage/>
+            </RequireAuth>
+          } />
+
         </Routes>
       </BrowserRouter>
     </div>

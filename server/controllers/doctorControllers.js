@@ -2,11 +2,13 @@ const doctorData = require("../models/doctor")
 const appointmentData = require("../models/appointments")
 const patientData = require("../models/patient")
 
+// Get list of all doctors
 const fetchDoctors = async(req,res) => {
     const doctors = await doctorData.find().sort({"lastName":1});
     res.json({doctors})
 }
 
+// Search for doctors by last name
 const applyDoctorSearch = async(req,res) => {
     const filter = req.params.filter;
     const doctors = await doctorData.find({
@@ -14,12 +16,14 @@ const applyDoctorSearch = async(req,res) => {
     res.json({doctors})
 }
 
+// Get a doctor's information based on specified ID
 const fetchDoctor = async(req,res) => {
     const doctorId = req.params.id
     const doctor = await doctorData.findById(doctorId);
     res.json({doctor})
 }
 
+// Add new doctor
 const createDoctor = async(req,res) => {
     const doctor = req.body;
     const newDoctor = new doctorData(doctor);
@@ -31,6 +35,7 @@ const createDoctor = async(req,res) => {
     }
 }
 
+// Update doctor's information
 const updateDoctor =async(req,res) => {
     const doctorId = req.params.id;
     const doctor = req.body;
@@ -42,12 +47,14 @@ const updateDoctor =async(req,res) => {
     res.json({doctor});
 }
 
+// Delete doctor
 const deleteDoctor = async(req,res) => {
     doctorId = req.params.id;
     await doctorData.findByIdAndDelete(doctorId);
     res.json({success: "Doctor deleted"});
 }
 
+// Get list of all upcoming appointments for specified doctor
 const fetchDoctorAppointments = async(req,res) => {
     id = req.params.id;
     try {
@@ -62,6 +69,7 @@ const fetchDoctorAppointments = async(req,res) => {
     }
 }
 
+// Get all appointments (past and upcoming) for a specified doctor
 const showAllDoctorAppointments = async(req,res) => {
     const id = req.params.id;
     const filter = req.params.filter;
@@ -75,6 +83,7 @@ const showAllDoctorAppointments = async(req,res) => {
 
 }
 
+// Create an appointment with the specified doctor
 const createDoctorAppointment = async(req,res) => {
     id = req.params.id;
     const selectedDoctor = await doctorData.findById(id)

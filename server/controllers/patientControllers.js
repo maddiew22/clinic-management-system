@@ -3,11 +3,13 @@ const prescriptionData = require("../models/prescriptions")
 const appointmentData = require("../models/appointments")
 const doctorData = require("../models/doctor")
 
+// Get list of all patients
 const fetchPatients = async(req,res) => {
     const patients = await patientData.find().sort({"lastName":1});
     res.json({patients})
 }
 
+// Search for patients by last name
 const applyPatientSearch = async(req,res) => {
     const filter = req.params.filter;
     const patients = await patientData.find({
@@ -15,12 +17,14 @@ const applyPatientSearch = async(req,res) => {
     res.json({patients})
 }
 
+// Get a patient's information based on a specified ID
 const fetchPatient = async(req,res) => {
     const patientId = req.params.id
     const patient = await patientData.findById(patientId);
     res.json({patient})
 }
 
+// Add new patient
 const createPatient = async(req,res) => {
     const patient = req.body;
     const newPatient = new patientData(patient);
@@ -32,6 +36,7 @@ const createPatient = async(req,res) => {
     }
 }
 
+// Update patient's information
 const updatePatient =async(req,res) => {
     const patientId = req.params.id;
     const patient = req.body;
@@ -47,6 +52,7 @@ const updatePatient =async(req,res) => {
     res.json({patient});
 }
 
+// Add a new prescription for a specified patient
 const addPrescription = async(req,res) => {
     const patientId = req.params.id;
     const prescription = req.body;
@@ -62,21 +68,21 @@ const addPrescription = async(req,res) => {
     res.json({addedPrescription});
 }
 
-
+// Get list of prescriptions for a specified patient
 const getPrescriptions = async(req, res) => {
     const patientId = req.params.id;
     const patient = await patientData.findById(patientId).populate("prescriptions");
-    // const prescription = patient.prescriptions;
-    // const prescriptionInfo = await prescriptionData.findById(prescription);
     res.json({patient})
 }
 
+// Delete patient
 const deletePatient = async(req,res) => {
     patientId = req.params.id;
     await patientData.findByIdAndDelete(patientId);
     res.json({success: "Patient deleted"});
 }
 
+// Get list of all upcoming appointments for specified patient
 const fetchPatientAppointments = async(req,res) => {
     id = req.params.id;
     try {
@@ -91,6 +97,7 @@ const fetchPatientAppointments = async(req,res) => {
     }
 }
 
+// Get all appointments (past and upcoming) for a specified patient
 const showAllPatientAppointments = async(req,res) => {
     const id = req.params.id;
     const filter = req.params.filter;
@@ -104,6 +111,7 @@ const showAllPatientAppointments = async(req,res) => {
 
 }
 
+// Create an appointment for the specified patient
 const createPatientAppointment = async(req,res) => {
     id = req.params.id;
     const selectedPatient = await patientData.findById(id)

@@ -29,12 +29,11 @@ app.use(bodyParser.urlencoded({limit: "20mb", extended: true}));
 connectToDb();
 
 //Routing
-
-// app.post('/signup', signup);
 app.post('/login', login);
 app.get('/logout', logout);
 
 app.get('/check-auth', requireAuth, checkAuth);
+
 
 app.get('/patients', fetchPatients);
 app.get('/patients/:filter', applyPatientSearch)
@@ -50,7 +49,6 @@ app.get('/patient/appointments/:id', fetchPatientAppointments);
 app.post('/patient/appointments/:id', createPatientAppointment);
 app.get('/patient/appointments/:id/:filter', showAllPatientAppointments);
 
-// app.delete('/patient/appointments/:id', deletePatientAppointment);
 app.get('/doctor/appointments/:id', fetchDoctorAppointments);
 app.post('/doctor/appointments/:id', createDoctorAppointment);
 app.get('/doctor/appointments/:id/:filter', showAllDoctorAppointments);
